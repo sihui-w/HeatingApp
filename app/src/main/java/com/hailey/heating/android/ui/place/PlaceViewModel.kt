@@ -2,42 +2,25 @@ package com.hailey.heating.android.ui.place
 
 import androidx.lifecycle.*
 import com.hailey.heating.android.logic.Repository
+import com.hailey.heating.android.logic.model.Place
 import com.hailey.heating.android.logic.model.PlaceResponse
 
 class PlaceViewModel : ViewModel() {
 
-    private val lat  = MutableLiveData<String>()
-    private val lon  = MutableLiveData<String>()
-
-    private val searchLiveData = MediatorLiveData<Pair<String?, String?>>().apply {
-        addSource(lat) {
-            value = Pair(it, lon.value)
-        }
-        addSource(lon) {
-            value = Pair(lat.value, it)
-        }
+    private val searchLiveData = MutableLiveData<String>()
+    val placeList = ArrayList<Place>()
+    val placeLiveData = Transformations.switchMap(searchLiveData) { query ->
+        Repository.searchPlaces(query)
+    }
+    fun searchPlaces(query: String) {
+        searchLiveData.value = query
     }
 
-    val placeList = ArrayList<PlaceResponse>()
+    fun savePlace(place: Place) = Repository.savePlace(place)
 
-    val placeLiveData = Transformations.switchMap(searchLiveData) { pair ->
-        pair.first?.let { pair.second?.let { it1 -> Repository.searchPlaces(it, it1) } }
-    }
+    fun getSavePlace(): Place = Repository.getSavePlace()
 
-    fun searchPlaces(pair : Pair<MutableLiveData<String>, MutableLiveData<String>>){
-        val first = pair.first
-        val second = pair.second
-
-        val searchLiveData = MediatorLiveData<Pair<String?, String?>>().apply {
-            addSource(first) {
-                value = Pair(it, second.value)
-            }
-            addSource(second) {
-                value = Pair(first.value, it)
-            }
-        }
-
-    }
+    fun isPlaceSaved() = Repository.isPlaceSave()
 
 
 }

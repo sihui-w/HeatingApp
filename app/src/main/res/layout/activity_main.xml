@@ -15,4 +15,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/placeFragment"
+            android:name="com.heating.android.ui.place.PlaceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

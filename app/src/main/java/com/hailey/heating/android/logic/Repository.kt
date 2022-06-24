@@ -1,6 +1,8 @@
 package com.hailey.heating.android.logic
 
 import androidx.lifecycle.liveData
+import com.hailey.heating.android.logic.dao.PlaceDao
+import com.hailey.heating.android.logic.model.Place
 import com.hailey.heating.android.logic.model.PlaceResponse
 import com.hailey.heating.android.logic.network.HeatingNetwork
 import kotlinx.coroutines.Dispatchers
@@ -10,18 +12,24 @@ import kotlinx.coroutines.Dispatchers
  * Author: Hailey
  */
 object Repository {
-    fun searchPlaces(lat: String, lon: String) = liveData(Dispatchers.IO) {
+    fun searchPlaces(query: String) = liveData(Dispatchers.IO) {
         val result = try {
-            val placeResponse = HeatingNetwork.searchPlaces(lat, lon)
-            if (placeResponse.lat.isNotBlank()) {
-                val places = placeResponse.lat
+            val placeResponse = HeatingNetwork.searchPlaces(query)
+            if (placeResponse.status == "ok") {
+                val places = placeResponse.places
                 Result.success(places)
             } else {
-                Result.failure(RuntimeException("No response"))
+                Result.failure(RuntimeException("response status is not ok"))
             }
         } catch (e: Exception) {
-            Result.failure<List<PlaceResponse>>(e)
+            Result.failure<List<Place>>(e)
         }
         emit(result)
     }
+
+    fun savePlace(place: Place) = PlaceDao.savePlace(place)
+
+    fun getSavePlace() = PlaceDao.getSavedPlace()
+
+    fun isPlaceSave() = PlaceDao.isPlaceSaved()
 }
