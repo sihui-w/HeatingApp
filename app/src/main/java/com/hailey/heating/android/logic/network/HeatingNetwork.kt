@@ -3,16 +3,24 @@ package com.hailey.heating.android.logic.network
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import kotlin.math.ln
 
 object HeatingNetwork {
 
     private val placeService = ServiceCreator.create<PlaceService>()
     suspend fun searchPlaces(query: String) = placeService.searchPlaces(query).await()
 
-    // thread wait until searchplaces finish
+    private val weatherService = ServiceCreator.create(WeatherService::class.java)
+
+    suspend fun getDetailWeather(lng: String,lat: String) = weatherService.getDailyWeather(lng, lat).await()
+
+    suspend fun getRealtimeWeather(lng: String,lat: String) = weatherService.getRealtimeWeather(lng, lat).await()
+
+    // thread wait until service finish
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {

@@ -3,7 +3,6 @@ package com.hailey.heating.android.ui.place
 import androidx.lifecycle.*
 import com.hailey.heating.android.logic.Repository
 import com.hailey.heating.android.logic.model.Place
-import com.hailey.heating.android.logic.model.PlaceResponse
 
 class PlaceViewModel : ViewModel() {
 
