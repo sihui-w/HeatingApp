@@ -22,14 +22,17 @@ import kotlinx.android.synthetic.main.fragment_place.recyclerView
 class PlaceFragment : Fragment() {
     val viewModel by lazy { ViewModelProviders.of(this).get(PlaceViewModel::class.java) }
     private lateinit var adapter: PlaceAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_place, container, false)
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if(viewModel.isPlaceSaved()){
+        // if place is saved, just start activity
+        if(activity is MainActivity && viewModel.isPlaceSaved()){
             val place = viewModel.getSavePlace()
             val intent = Intent(context, WeatherActivity::class.java).apply {
                 putExtra("location_lng",place.location.lng)
