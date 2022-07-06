@@ -30,6 +30,7 @@ class WeatherActivity : AppCompatActivity() {
 
     val viewModel by lazy { ViewModelProviders.of(this).get(WeatherViewModel::class.java) }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= 21) {
@@ -40,16 +41,15 @@ class WeatherActivity : AppCompatActivity() {
         setContentView(R.layout.activity_weather)
 
         // put the value in weatherviewmodel
-        if(viewModel.locationLng.isEmpty()){
-            viewModel.locationLng = intent.getStringExtra("location_lng")?:""
+        if (viewModel.locationLng.isEmpty()) {
+            viewModel.locationLng = intent.getStringExtra("location_lng") ?: ""
         }
 
-        if(viewModel.locationLat.isEmpty()){
-            viewModel.locationLat = intent.getStringExtra("location_lat")?:""
+        if (viewModel.locationLat.isEmpty()) {
+            viewModel.locationLat = intent.getStringExtra("location_lat") ?: ""
         }
-
-        if(viewModel.placeName.isEmpty()){
-            viewModel.placeName = intent.getStringExtra("place_name")?:""
+        if (viewModel.placeName.isEmpty()) {
+            viewModel.placeName = intent.getStringExtra("place_name") ?: ""
         }
 
         // observe weatherLiveData, show it while get the return of server
@@ -101,7 +101,7 @@ class WeatherActivity : AppCompatActivity() {
         swipeRefresh.isRefreshing = true
     }
 
-    private fun showWeatherInfo(weather: Weather){
+    private fun showWeatherInfo(weather: Weather) {
         placeName.text = viewModel.placeName
         val realtime = weather.realtime
         val daily = weather.daily
@@ -110,7 +110,6 @@ class WeatherActivity : AppCompatActivity() {
         val currentTempText = "${realtime.temperature.toInt()} ℃"
         currentTemp.text = currentTempText
         currentSky.text = getSky(realtime.skycon).info
-
         val currentPM25Text = "空气指数 ${realtime.airQuality.aqi.chn.toInt()}"
         currentAQI.text = currentPM25Text
         nowLayout.setBackgroundResource(getSky(realtime.skycon).bg)
@@ -121,10 +120,8 @@ class WeatherActivity : AppCompatActivity() {
         for (i in 0 until days) {
             val skycon = daily.skycon[i]
             val temperature = daily.temperature[i]
-            val view = LayoutInflater.from(this).inflate(
-                R.layout.forecast_item,
-                forecastLayout, false
-            )
+            val view = LayoutInflater.from(this).inflate(R.layout.forecast_item,
+                forecastLayout, false)
             val dateInfo = view.findViewById(R.id.dateInfo) as TextView
             val skyIcon = view.findViewById(R.id.skyIcon) as ImageView
             val skyInfo = view.findViewById(R.id.skyInfo) as TextView
@@ -148,7 +145,6 @@ class WeatherActivity : AppCompatActivity() {
 
         // scrollview -> visible
         weatherLayout.visibility = View.VISIBLE
-
     }
 }
 

@@ -22,6 +22,6 @@ object PlaceDao {
     fun isPlaceSaved() = sharedPreferences().contains("place")
 
     private fun sharedPreferences() =
-        HeatingApplication.context.getSharedPreferences("sunny_weather", Context.MODE_PRIVATE)
+        HeatingApplication.context.getSharedPreferences("heating", Context.MODE_PRIVATE)
 
 }
