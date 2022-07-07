@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 
+/**
+ * get the context
+ */
 class HeatingApplication : Application() {
 
     companion object{

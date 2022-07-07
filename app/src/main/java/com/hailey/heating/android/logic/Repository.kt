@@ -3,7 +3,6 @@ package com.hailey.heating.android.logic
 import androidx.lifecycle.liveData
 import com.hailey.heating.android.logic.dao.PlaceDao
 import com.hailey.heating.android.logic.model.Place
-import com.hailey.heating.android.logic.model.PlaceResponse
 import com.hailey.heating.android.logic.model.Weather
 import com.hailey.heating.android.logic.network.HeatingNetwork
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +15,10 @@ import kotlin.coroutines.CoroutineContext
  * Author: Hailey
  */
 object Repository {
+
+    /**
+     * search place(user input)
+     */
     fun searchPlaces(query: String) = fire(Dispatchers.IO) {
         val placeResponse = HeatingNetwork.searchPlaces(query)
         if (placeResponse.status == "ok") {

@@ -11,9 +11,11 @@ import kotlin.math.ln
 
 object HeatingNetwork {
 
+    // search place（user input）
     private val placeService = ServiceCreator.create<PlaceService>()
     suspend fun searchPlaces(query: String) = placeService.searchPlaces(query).await()
 
+    // get realtime and forecast weather
     private val weatherService = ServiceCreator.create(WeatherService::class.java)
 
     suspend fun getDetailWeather(lng: String,lat: String) = weatherService.getDailyWeather(lng, lat).await()
