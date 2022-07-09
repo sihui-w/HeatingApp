@@ -15,7 +15,7 @@ class HeatingApplication : Application() {
         lateinit var context:Context
 
         // Api key of open weather
-        const val TOKEN = "ELy7EHWKEUZNvzkB"
+        const val TOKEN = "*******************"
     }
 
     override fun onCreate() {
